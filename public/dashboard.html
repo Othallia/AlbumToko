@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* === TEMA RETRO === */
+        :root { --r-blue: #9CC6DB; --r-cream: #FCF6D9; --r-orange: #CF4B00; --r-tan: #DDBA7D; }
+        body { font-family: 'DM Sans', sans-serif; background: linear-gradient(180deg, var(--r-blue) 0%, var(--r-cream) 100%); min-height: 100vh; padding-bottom: 50px;}
+        
+        /* Navbar */
+        .navbar { background: var(--r-orange); border-bottom: 3px solid var(--r-tan); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
+        .navbar-brand, .nav-text { color: var(--r-cream) !important; font-weight: 700; }
+        
+        /* Kartu Utama */
+        .retro-card {
+            background: var(--r-cream); border: 3px solid var(--r-tan); border-radius: 12px;
+            box-shadow: 6px 6px 0px rgba(221, 186, 125, 0.6); padding: 30px; margin-bottom: 30px;
+        }
+        
+        /* Form & Button */
+        .form-control-retro { border: 2px solid var(--r-tan); background: #fff; font-weight: 600; color: #333; }
+        .btn-retro {
+            background: var(--r-orange); color: #fff; border: 2px solid var(--r-orange); font-weight: 800;
+            transition: 0.2s; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+        }
+        .btn-retro:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0,0,0,0.1); color: #fff;}
+
+        /* Hasil Data (Kartu Produk) */
+        .card-produk {
+            background: var(--r-cream); border: 2px solid var(--r-tan); border-radius: 10px; overflow: hidden;
+            transition: 0.3s; height: 100%;
+        }
+        .card-produk:hover { transform: translateY(-5px); border-color: var(--r-orange); }
+        .card-img-top { height: 180px; object-fit: cover; border-bottom: 2px solid var(--r-tan); }
+        .harga { color: var(--r-orange); font-weight: 800; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg px-4 py-3 fixed-top">
+        <div class="container-fluid">
+            <span class="navbar-brand">📻 RetroAPI</span>
+            <div class="d-flex align-items-center gap-3">
+                <span class="nav-text" id="userNameDisplay">Loading...</span>
+                <a href="/logout" class="btn btn-sm btn-outline-light fw-bold border-2">Keluar</a>
+            </div>
+        </div>
+    </nav>
+    <div style="height: 100px;"></div>
+
+    <div class="container mt-4">
+        
+        <div class="retro-card">
+            <h4 style="color: var(--r-orange); font-weight: 800;">🔑 API KEY ANDA</h4>
+            <div class="row mt-3 align-items-center">
+                <div class="col-md-8 mb-2">
+                    <input type="text" id="myKeyInput" class="form-control form-control-retro p-3" 
+                           placeholder="Anda belum memiliki Key..." readonly>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <button id="btnGenerate" onclick="generateKey()" class="btn btn-retro w-100 p-3">
+                        BUAT KEY BARU ✨
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="retro-card">
+            <div class="text-center mb-4">
+                <h3 style="color: #333; font-weight: 800;">🚀 API PLAYGROUND</h3>
+                <p class="text-muted">Uji coba data musik menggunakan API Key di atas.</p>
+            </div>
+
+            <div class="input-group mb-4">
+                <input type="text" id="testKeyInput" class="form-control form-control-retro" placeholder="Tempel API Key di sini...">
+                <button onclick="fetchAlbumData()" class="btn btn-retro px-4">AMBIL DATA ⚡</button>
+            </div>
+
+            <div id="loading" class="text-center d-none mb-4">
+                <div class="spinner-border text-warning"></div>
+            </div>
+
+            <div id="requestInfoBox" class="bg-dark p-3 rounded mb-4 d-none" style="font-family: 'Consolas', monospace; border-left: 6px solid var(--r-orange);">
+                <div class="row align-items-center">
+                    <div class="col-md-9">
+                        <small style="color: var(--r-tan); font-weight: bold; text-transform: uppercase;">Call (Request URL)</small>
+                        <div id="urlDisplayText" class="text-white text-break mt-1">...</div>
+                    </div>
+                    <div class="col-md-3 text-md-end mt-2 mt-md-0 border-start border-secondary ps-3">
+                        <small style="color: var(--r-tan); font-weight: bold; text-transform: uppercase;">Response Code</small>
+                        <div class="text-success fw-bold fs-5">200 OK</div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs mb-3 border-bottom-0">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold text-dark border-3 border-bottom border-warning" 
+                            id="btnVisual" onclick="switchTab('visual')">
+                        🎨 Tampilan Visual
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-secondary" 
+                            id="btnJson" onclick="switchTab('json')">
+                        💻 Respon JSON
+                    </button>
+                </li>
+            </ul>
+
+            <div class="row g-4" id="resultArea">
+                <div class="col-12 text-center py-5 text-muted fw-bold border rounded bg-light">
+                    Hasil data akan muncul di sini...
+                </div>
+            </div>
+
+            <div class="d-none" id="jsonArea">
+                <div class="bg-dark text-info p-3 rounded shadow-sm" style="max-height: 400px; overflow-y: auto;">
+                    <pre id="jsonContent" class="m-0" style="font-family: 'Consolas', monospace; font-size: 0.9rem;">
+{
+    "message": "Silakan klik tombol AMBIL DATA dulu..."
+}</pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
