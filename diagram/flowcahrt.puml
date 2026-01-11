@@ -1,0 +1,34 @@
+@startuml
+title Flowchart Konsumsi API (User Request)
+skinparam linetype ortho
+
+start
+:User/Client Request API;
+:GET /api/albums?key=XYZ;
+
+if (Apakah Parameter Key Ada?) then (Tidak)
+    :Return Error 401;
+    :Pesan: "Key Wajib Diisi";
+    stop
+else (Ya)
+    :Query Database (Cek Key);
+endif
+
+if (Key Ditemukan?) then (Tidak)
+    :Return Error 403;
+    :Pesan: "Key Invalid";
+    stop
+else (Ya)
+    if (Status Key == 'active'?) then (Ya)
+        :Query Data Albums;
+        :Format ke JSON;
+        :Return Status 200 (OK);
+        :Tampilkan Data Album;
+    else (Tidak / Blocked)
+        :Return Error 403;
+        :Pesan: "Key Diblokir Admin";
+    endif
+endif
+
+stop
+@enduml

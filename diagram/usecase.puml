@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User (Developer)" as user
+actor "Admin System" as admin
+
+rectangle "MusicStore System" {
+    ' Auth
+    usecase "Registrasi / Login" as UC1
+    
+    ' User Features
+    usecase "Generate API Key" as UC2
+    usecase "Akses API Playground" as UC3
+    usecase "Lihat Katalog (JSON/Visual)" as UC4
+
+    ' Admin Features
+    usecase "Kelola Data Album (CRUD)" as UC5
+    usecase "Monitoring User Keys" as UC6
+    usecase "Blokir / Unblock Key" as UC7
+}
+
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+
+admin --> UC1
+admin --> UC5
+admin --> UC6
+admin --> UC7
+@enduml

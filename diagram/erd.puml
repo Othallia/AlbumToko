@@ -1,0 +1,33 @@
+@startuml
+' Hide circle icons
+hide circle
+skinparam linetype ortho
+
+entity "**users**" {
+    *id : INT <<PK>>
+    --
+    name : VARCHAR(100)
+    email : VARCHAR(100)
+    password : VARCHAR(255)
+}
+
+entity "**api_keys**" {
+    *id : INT <<PK>>
+    --
+    *user_id : INT <<FK>>
+    key_code : VARCHAR(255)
+    status : ENUM('active', 'blocked')
+}
+
+entity "**albums**" {
+    *id : INT <<PK>>
+    --
+    title : VARCHAR(255)
+    artist : VARCHAR(255)
+    price : DECIMAL(10,2)
+    cover_image : VARCHAR(255)
+}
+
+' Relationships
+users ||..|| api_keys : "1 user memiliki 1 key"
+@enduml
