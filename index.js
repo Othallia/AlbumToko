@@ -17,9 +17,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// ===================================================
-// === ROUTE HALAMAN (VIEW) ===
-// ===================================================
 
 // 1. Halaman Login (Root)
 app.get('/', (req, res) => {
@@ -44,9 +41,6 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
 
-// ===================================================
-// === API UTAMA (LOGIN, REGISTER, USER) ===
-// ===================================================
 
 // A. PROSES LOGIN (SATU PINTU UNTUK ADMIN & USER)
 app.post('/api/login', (req, res) => {
@@ -124,9 +118,6 @@ app.post('/api/generate-key', (req, res) => {
     });
 });
 
-// ===================================================
-// === API PUBLIK (DATA ALBUM) ===
-// ===================================================
 
 app.get('/api/albums', (req, res) => {
     const apiKey = req.query.key;
@@ -154,9 +145,6 @@ app.get('/api/albums', (req, res) => {
     });
 });
 
-// ===================================================
-// === API KHUSUS ADMIN ===
-// ===================================================
 
 // Middleware Cek Admin Sederhana
 const checkAdmin = (req, res, next) => {
@@ -217,9 +205,6 @@ app.put('/api/admin/keys/:id', checkAdmin, (req, res) => {
     });
 });
 
-// ===================================================
-// === LOGOUT ===
-// ===================================================
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
