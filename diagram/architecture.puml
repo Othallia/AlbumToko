@@ -1,0 +1,47 @@
+@startuml
+title 3-Tier Architecture - MusicStore API
+skinparam linetype ortho
+skinparam componentStyle rectangle
+
+' --- 1. PRESENTATION LAYER ---
+rectangle "Presentation Layer (Frontend)" {
+    component [MusicStore Web App] as WebApp
+    
+    note bottom of WebApp
+        **Fitur User:**
+        - Login / Register
+        - Dashboard (Generate Key)
+        - API Playground (Visual/JSON)
+        
+        **Fitur Admin:**
+        - Admin Dashboard
+        - Manajemen Album (CRUD)
+        - Monitoring User Key
+    end note
+}
+
+' --- 2. APPLICATION LAYER ---
+rectangle "Application Layer (Backend)" {
+    node "Node.js + Express" {
+        component [index.js\n(Server & API Routes)] as Server
+        component [db.js\n(Database Config)] as DBConfig
+    }
+}
+
+' --- 3. DATA LAYER ---
+rectangle "Data Layer" {
+    database "MySQL Database\n(album_toko)" as DB {
+        folder "Tables" {
+            card "users"
+            card "albums"
+            card "api_keys"
+        }
+    }
+}
+
+' --- RELATIONS ---
+WebApp -right-> Server : HTTP Request / REST API\n(JSON Data)
+Server -right-> DBConfig : Load Connection
+DBConfig -right-> DB : Query SQL (Read/Write)
+
+@enduml
