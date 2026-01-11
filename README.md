@@ -15,3 +15,6 @@ halaman dashboard admin
 database
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c2f671b8-596c-443c-a554-1b414d128606" />
 
+postman
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/87c961df-dd74-46ff-811b-6526996797c0" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e5b1227e-aa48-4197-adf6-0f84fb95c5f9" />
