@@ -15,7 +15,7 @@
         .navbar-brand, .nav-text { color: var(--r-cream) !important; font-weight: 700; }
         
         /* Kartu Utama */
-        .retro-card {
+        .retro-card, .glass-card {
             background: var(--r-cream); border: 3px solid var(--r-tan); border-radius: 12px;
             box-shadow: 6px 6px 0px rgba(221, 186, 125, 0.6); padding: 30px; margin-bottom: 30px;
         }
@@ -36,6 +36,14 @@
         .card-produk:hover { transform: translateY(-5px); border-color: var(--r-orange); }
         .card-img-top { height: 180px; object-fit: cover; border-bottom: 2px solid var(--r-tan); }
         .harga { color: var(--r-orange); font-weight: 800; font-size: 1.2rem; }
+
+        /* Badge Langkah (1, 2, 3) */
+        .step-badge {
+            width: 50px; height: 50px; background-color: #CF4B00; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: bold; margin: 0 auto 10px auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -43,9 +51,12 @@
     <nav class="navbar navbar-expand-lg px-4 py-3 fixed-top">
         <div class="container-fluid">
             <span class="navbar-brand">📻 RetroAPI</span>
-            <div class="d-flex align-items-center gap-3">
-                <span class="nav-text" id="userNameDisplay">Loading...</span>
-                <a href="/logout" class="btn btn-sm btn-outline-light fw-bold border-2">Keluar</a>
+            <div class="d-flex align-items-center gap-2">
+                <span class="nav-text me-3" id="userNameDisplay">Loading...</span>
+                
+                <a href="/docs" target="_blank" class="btn btn-sm btn-outline-light fw-bold border-2">📖 API Docs</a>
+                
+                <a href="/logout" class="btn btn-sm btn-light fw-bold text-danger border-2">Keluar</a>
             </div>
         </div>
     </nav>
@@ -125,8 +136,40 @@
 }</pre>
                 </div>
             </div>
-
         </div>
+
+        <div class="glass-card mt-4 mb-5">
+            <div class="p-4">
+                <h4 class="fw-bold text-center mb-4" style="color: #CF4B00;">🚀 Cara Menggunakan Layanan</h4>
+                
+                <div class="row text-center">
+                    <div class="col-md-4 mb-3">
+                        <div class="step-badge">1</div>
+                        <h5 class="fw-bold mt-2">Dapatkan Key</h5>
+                        <p class="text-secondary small">
+                            Klik tombol hijau di atas untuk mendapatkan <strong>API Key</strong> rahasia kamu. Kunci ini wajib dipakai untuk mengakses data.
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="step-badge">2</div>
+                        <h5 class="fw-bold mt-2">Uji Coba Data</h5>
+                        <p class="text-secondary small">
+                            Masukkan Key kamu di kolom <strong>API Playground</strong> lalu klik "Ambil Data". Kamu bisa melihat contoh data JSON secara langsung.
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="step-badge">3</div>
+                        <h5 class="fw-bold mt-2">Integrasi Aplikasi</h5>
+                        <p class="text-secondary small">
+                            Baca <a href="/docs" class="fw-bold text-decoration-none" style="color: #CF4B00;">Dokumentasi API</a> untuk melihat cara menghubungkan API MusicStore ke dalam kodingan aplikasi kamu.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
